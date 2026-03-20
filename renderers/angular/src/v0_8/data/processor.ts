@@ -97,19 +97,3 @@ export class MessageProcessor {
     this.baseProcessor.clearSurfaces();
   }
 }
-
-/** Filters out surfaces that are not ready to render. */
-function filterToVisibleSurfaces(
-  surfaces: Map<string, WebCore.Surface>,
-): Map<string, WebCore.Surface> {
-  // NOTE: If a message with a `surfaceUpdate` is processed prior to a
-  // `beginRendering` message, the surface is still returned, but it won't have
-  // a root component to render.
-  const visibleSurfaces = new Map<string, WebCore.Surface>();
-  for (const [surfaceId, surface] of surfaces) {
-    if (surface.rootComponentId && surface.componentTree) {
-      visibleSurfaces.set(surfaceId, surface);
-    }
-  }
-  return visibleSurfaces;
-}
